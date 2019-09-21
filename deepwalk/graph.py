@@ -146,18 +146,23 @@ class Graph(defaultdict):
 
 # TODO add build_walks in here
 
-def build_deepwalk_corpus(G, num_paths, path_length, alpha=0,
-                      rand=random.Random(0)):
-  walks = []
+class build_deepwalk_corpus(object):
 
-  nodes = list(G.nodes())
-  
-  for cnt in range(num_paths):
-    rand.shuffle(nodes)
-    for node in nodes:
-      walks.append(G.random_walk(path_length, rand=rand, alpha=alpha, start=node))
-  
-  return walks
+    def __init__(self, G, num_paths, path_length, alpha=0, rand_seed=0):
+        self.G = G
+        self.num_paths = num_paths
+        self.path_length = path_length
+        self.alpha = alpha
+        self.rand_seed = rand_seed
+
+    def __iter__(self):
+        rand = random.Random(self.rand_seed)
+        nodes = list(self.G.nodes())
+        for cnt in range(self.num_paths):
+            rand.shuffle(nodes)
+            for node in nodes:
+                yield self.G.random_walk(self.path_length, rand=rand, alpha=self.alpha, start=node)
+
 
 def build_deepwalk_corpus_iter(G, num_paths, path_length, alpha=0,
                       rand=random.Random(0)):
