@@ -154,13 +154,24 @@ class build_deepwalk_corpus(object):
         self.path_length = path_length
         self.alpha = alpha
         self.rand_seed = rand_seed
+        self.round = 1
 
     def __iter__(self):
         rand = random.Random(self.rand_seed)
         nodes = list(self.G.nodes())
+        # For printing output
+        total_walks = self.num_paths*len(nodes)
+        i = 0
+        print("\nRound %s: Total Walks %s\n------" % (self.round, total_walks))
+        self.round += 1
+        #
         for cnt in range(self.num_paths):
             rand.shuffle(nodes)
             for node in nodes:
+                # For printing output
+                i += 1
+                if not i % (total_walks//100):
+                    print("On Walk %s (%s%%)" % (i, 100*i//total_walks))
                 yield self.G.random_walk(self.path_length, rand=rand, alpha=self.alpha, start=node)
 
 
