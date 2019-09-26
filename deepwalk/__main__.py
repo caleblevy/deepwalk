@@ -47,12 +47,12 @@ def debug(type_, value, tb):
 
 
 def process(args):
-    print("hello")
+  print("hello")
 
   if args.format == "adjlist":
     G = graph.load_adjacencylist(args.input, undirected=args.undirected)
   elif args.format == "edgelist":
-      print("hello")
+    print("hello")
     G = graph.load_edgelist(args.input, undirected=args.undirected)
   elif args.format == "mat":
     G = graph.load_matfile(args.input, variable_name=args.matfile_variable_name, undirected=args.undirected)
